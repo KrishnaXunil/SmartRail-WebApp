@@ -10,7 +10,7 @@ function Login() {
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+         e.preventDefault();
         setMessage("");
 
         try {
@@ -30,7 +30,8 @@ function Login() {
                 localStorage.setItem("token", data.token); // if your backend returns a token
 
                 // Redirect to dashboard or main page
-                navigate("/findtrain");
+                // window.location.reload();
+                 navigate("/findtrain");
             } else {
                 setMessage(data.message || "Login failed.");
             }

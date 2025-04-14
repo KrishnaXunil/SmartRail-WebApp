@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import './NavBar.css';
+import './AuthNavBar.css';
 import logo from "../assets/download.png";
 
-function NavBar() {
+function AuthNavBar() {
   return (
     <nav className="navbar">
       <div className="logo">
@@ -29,14 +29,14 @@ function NavBar() {
           <Link to="/seatavailability" className="nav-link">Seat Availability</Link>
         </li>
         <li className="nav-item">
-          <Link to="/login" className="nav-link">Login</Link>
+          <Link to="/profile" className="nav-link">My Profile</Link>
         </li>
         <li className="nav-item">
-          <Link to="/signup" className="nav-link">Sign Up</Link>
+          <Link to="/logout" className="nav-link">Logout</Link>
         </li>
       </ul>
     </nav>
   );
 }
 
-export default NavBar;
+export default AuthNavBar;

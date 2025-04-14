@@ -9,6 +9,8 @@ function FindTrain() {
     setSearchMode(Mode === searchMode ? null : Mode)
   }
 
+  // windows.location.reload();
+
   const token = localStorage.getItem('token');
   console.log(token);
   return (

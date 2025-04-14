@@ -1,70 +1,72 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    background-color: #222222;
-    color: rgb(255, 255, 255);
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* ✅ This keeps items aligned vertically */
-    padding: 0 1.5rem;
-    padding-left: 0rem;
-padding-right: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1E3D58; /* Government blue color */
+  padding: 10px 20px;
+  color: white;
+}
 
-    z-index: 999;
-  }
-  
-  .logo {
-    font-size: 1.4rem;
-    margin: 0;
-    display: flex;
-    align-items: center; /* Just in case emoji causes shift */
-    gap: 0.5rem; /* Adds space between emoji and text */
-    
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+}
+
+.nav-item {
+  margin-left: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #4CAF50; /* Green color on hover */
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .logo-img {
-    height: 55px;   /* or 50px, or whatever looks good */
-    width: auto;    /* keeps the aspect ratio */
-  }
-  .nav-box {
-    padding: 0.5rem 1rem;
-    border: 2px solid white;
-    border-radius: 8px;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .nav-box:hover {
-    border: 2px solid #ff8c00;
-    color: #000;
-  }
   .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 1.2rem;
-    margin: 0;
-    padding: 0;
-    
+    flex-direction: column;
+    margin-top: 20px;
   }
-  
-  .nav-links li a {
-    text-decoration: none;
-    color: white;
-    font-weight: 500;
-    font-size: 1rem;
-    padding: 0.3rem 0.6rem;
-    transition: color 0.2s ease-in-out;
-    background-color: #222222;
 
+  .nav-item {
+    margin: 10px 0;
   }
-  
-  .nav-links li a:hover {
-    color:#ff8c00;
-  }
-  
+}

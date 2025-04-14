@@ -1,15 +1,12 @@
 .Homepage {
   margin-top: 60px; /* match navbar height */
-}
-
-.Homepage {
   position: relative;
   background-image: url(../assets/bg.jpg); /* ✅ your background */
   background-size: cover;
-  background-position: 100% center; /* start from right */
+  background-position: center;
   background-repeat: no-repeat;
   height: 100vh;
-  width: 200vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,6 +15,10 @@
   color: white;
   padding: 0 1rem;
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 
   /* 🎬 Animation */
   animation: slideInBackground 2s ease-out forwards;
@@ -42,26 +43,26 @@
   animation: fadeInUp 1s ease-out;
 }
 
-/* Simple fade-in animations */
+/* Optimized animations */
 @keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translate3d(0, -20px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translate3d(0, 20px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -73,5 +74,33 @@
   100% {
     background-position: center center;
     opacity: 1;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .Homepage {
+    animation: none;
+  }
+  
+  .title, .catchphrase {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Performance optimizations for mobile devices */
+@media (max-width: 768px) {
+  .Homepage {
+    background-attachment: fixed;
+    background-position: center;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .catchphrase {
+    font-size: 1.2rem;
   }
 }
