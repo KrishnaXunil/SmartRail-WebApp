@@ -1,91 +1,79 @@
+const nodemailer = require("nodemailer");
 
-const { PASSWORD_RESET_REQUEST_TEMPLATE, PASSWORD_RESET_SUCCESS_TEMPLATE,	VERIFICATION_EMAIL_TEMPLATE  } = require("./emailTemplates");
+const {
+  VERIFICATION_EMAIL_TEMPLATE,
+  PASSWORD_RESET_REQUEST_TEMPLATE,
+  PASSWORD_RESET_SUCCESS_TEMPLATE
+} = require("./emailTemplates");
 
-const { client, sender } = require("./mailtrap");
+const transporter = nodemailer.createTransport({
+  service: "Gmail", // or use SMTP config for other providers
+  auth: {
+    user: process.env.EMAIL_USER, // your email address
+    pass: process.env.EMAIL_PASS, // your email password or app password
+  },
+});
 
-const sendVerificationEmail = async (email, verificationToken) => {
-	const recipient = [{ email }];
+///
 
-	try {
-		const response = await client.send({
-			from: sender,
-			to: recipient,
-			subject: "Verify your email",
-			html: VERIFICATION_EMAIL_TEMPLATE.replace("{verificationCode}", verificationToken),
-			category: "Email Verification",
-		});
+// 1. Send Verification Email
+const sendVerificationEmail = async (to, code) => {
+  // Replace the placeholder {verificationCode} in the template with the actual verification code
+  const emailHTML = VERIFICATION_EMAIL_TEMPLATE.replace("{verificationCode}", code);
 
-		console.log("Email sent successfully", response);
-	} catch (error) {
-		console.error(`Error sending verification`, error);
-
-		throw new Error(`Error sending verification email: ${error}`);
-	}
+  await transporter.sendMail({
+    from: `"Auth App" <${process.env.EMAIL_USER}>`,
+    to,
+    subject: "Verify your Email",
+    html: emailHTML,
+  });
 };
 
-const sendWelcomeEmail = async (email, name) => {
-	const recipient = [{ email }];
+// 2. Welcome Email
+const sendWelcomeEmail = async (to, name) => {
+  // Customize this part to use your custom welcome email template or a simple message
+  const welcomeHTML = `
+    <h1>Welcome, ${name}!</h1>
+    <p>We're excited to have you on board. 🎉</p>
+    <p>If you have any questions, feel free to reach out to our support team.</p>
+  `;
 
-	try {
-		const response = await client.send({
-			from: sender,
-			to: recipient,
-			template_uuid: "c4939384-70d0-4520-b97b-72407915b8e3",
-			template_variables: {
-				company_info_name: "SmartRail",
-				name: name,
-			},
-		});
-
-		console.log("Welcome email sent successfully", response);
-	} catch (error) {
-		console.error(`Error sending welcome email`, error);
-
-		throw new Error(`Error sending welcome email: ${error}`);
-	}
+  await transporter.sendMail({
+    from: `"Auth App" <${process.env.EMAIL_USER}>`,
+    to,
+    subject: "Welcome to the App!",
+    html: welcomeHTML,
+  });
 };
 
-const sendPasswordResetEmail = async (email, resetURL) => {
-	const recipient = [{ email }];
+// 3. Password Reset Email
+const sendPasswordResetEmail = async (to, resetLink) => {
+  // Replace the placeholder {resetURL} in the template with the actual reset link
+  const emailHTML = PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetLink);
 
-	try {
-		const response = await client.send({
-			from: sender,
-			to: recipient,
-			subject: "Reset your password",
-			html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL),
-			category: "Password Reset",
-		});
-	} catch (error) {
-		console.error(`Error sending password reset email`, error);
-
-		throw new Error(`Error sending password reset email: ${error}`);
-	}
+  await transporter.sendMail({
+    from: `"Auth App" <${process.env.EMAIL_USER}>`,
+    to,
+    subject: "Reset Your Password",
+    html: emailHTML,
+  });
 };
 
-const sendResetSuccessEmail = async (email) => {
-	const recipient = [{ email }];
+// 4. Password Reset Success Email
+const sendResetSuccessEmail = async (to) => {
+  const emailHTML = PASSWORD_RESET_SUCCESS_TEMPLATE;
 
-	try {
-		const response = await client.send({
-			from: sender,
-			to: recipient,
-			subject: "Password Reset Successful",
-			html: PASSWORD_RESET_SUCCESS_TEMPLATE,
-			category: "Password Reset",
-		});
-
-		console.log("Password reset email sent successfully", response);
-	} catch (error) {
-		console.error(`Error sending password reset success email`, error);
-
-		throw new Error(`Error sending password reset success email: ${error}`);
-	}
+  await transporter.sendMail({
+    from: `"Auth App" <${process.env.EMAIL_USER}>`,
+    to,
+    subject: "Password Changed Successfully",
+    html: emailHTML,
+  });
 };
 
-module.exports={
-    sendVerificationEmail,
-    sendWelcomeEmail,
-    sendPasswordResetEmail,
-    sendResetSuccessEmail
-}
+module.exports = {
+  sendVerificationEmail,
+  sendWelcomeEmail,
+  sendPasswordResetEmail,
+  sendResetSuccessEmail,
+};

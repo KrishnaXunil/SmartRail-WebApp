@@ -10,6 +10,7 @@ const { generateTokenAndSetCookie } = require("../utils/generateTokenAndSetCooki
 
 const { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail, sendResetSuccessEmail } = require("../mailtrap/emails")
 
+
 const signup = async (req, res) => {
 
 	const { email, password, name } = req.body;
